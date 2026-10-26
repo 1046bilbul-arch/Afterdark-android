@@ -68,7 +68,7 @@ for(const other of koiFish){if(other===f)continue;let away=pos.clone().sub(other
 for(const [axis,limit] of [['x',6.6],['y',2.45],['z',2.65]]){let p=pos[axis],edge=Math.abs(p);if(edge>limit-1.4)steer[axis]-=Math.sign(p)*Math.pow((edge-(limit-1.4))/1.4,2)*.07}
 if(interaction){let delta=interaction.point.clone().sub(pos),d=delta.length();if(interaction.drag){if(d<3.5&&d>.01)steer.addScaledVector(delta.normalize(),-.11*(1-d/3.5));f.boost=Math.max(f.boost,.8)}else{if(d>1.1)steer.addScaledVector(delta.normalize(),.015);f.boost=Math.max(f.boost,.2)}}
 f.velocity.add(steer);let base=.16+speed*.85,maximum=base*(1+f.boost*1.2);let mag=f.velocity.length();if(mag>maximum)f.velocity.multiplyScalar(maximum/mag);if(mag<base*.48)f.velocity.setLength(base*.48);
-pos.addScaledVector(f.velocity,.023);f.boost*=.974;
+pos.addScaledVector(f.velocity,.075);f.boost*=.974;
 if(Math.abs(pos.x)>7.2||Math.abs(pos.y)>2.9||Math.abs(pos.z)>3.1){pos.x=clamp(pos.x,-7.2,7.2);pos.y=clamp(pos.y,-2.9,2.9);pos.z=clamp(pos.z,-3.1,3.1);f.target.set(-pos.x*.5,-pos.y*.5,-pos.z*.5);f.velocity.lerp(f.target.clone().sub(pos).normalize().multiplyScalar(base),.16)}
 // Fish's nose points along +X, with eased rotation instead of snapping.
 let heading=Math.atan2(-f.velocity.z,f.velocity.x),pitch=Math.atan2(f.velocity.y,Math.hypot(f.velocity.x,f.velocity.z));let difference=Math.atan2(Math.sin(heading-f.root.rotation.y),Math.cos(heading-f.root.rotation.y));f.root.rotation.y+=difference*.045;f.root.rotation.z+=(pitch-f.root.rotation.z)*.045;
