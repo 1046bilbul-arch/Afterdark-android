@@ -19,6 +19,12 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.10.2'
+      - name: Bundle offline 3D renderer
+        run: |
+          npm pack three@0.149.0 --silent
+          tar -xzf three-0.149.0.tgz package/build/three.min.js
+          cp package/build/three.min.js app/src/main/assets/three.min.js
+          test -s app/src/main/assets/three.min.js
       - run: gradle assembleDebug --no-daemon
       - uses: actions/upload-artifact@v4
         with:
